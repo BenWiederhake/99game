@@ -36,11 +36,75 @@ optional arguments:
   --hide-board  do not show the board while playing
 ```
 
+And here's how gameplay looks like:
+
+```
+$ ./the99game.py --hints --base 5
+=== Turn 1 ===
+(0 1 2 3)
+ 1 2 3 4 (0)
+ 1 1 1 2 (1)
+ 1 3 1 4 (2)
+Legal moves are:
+[0,0,v, 1,0,>, 3,0,>, 0,1,v, 0,1,>, 1,1,>, 2,1,v, 2,2,>]
+You can also "expand" the board, or go one step "back".
+Please enter a move in the "col,row,dir" format, or "back" or "expand":
+?
+→0,0,v
+
+=== Turn 2 ===
+(0 1 2 3)
+ x 2 3 4 (0)
+ x 1 1 2 (1)
+ 1 3 1 4 (2)
+Legal moves are:
+[1,0,>, 3,0,>, 1,1,>, 2,1,v, 2,2,>]
+You can also "expand" the board, or go one step "back".
+Please enter a move in the "col,row,dir" format, or "back" or "expand":
+?
+→1,0,>
+
+=== Turn 3 ===
+(0 1 2 3)
+ x x x 4 (0)
+ x 1 1 2 (1)
+ 1 3 1 4 (2)
+Legal moves are:
+[3,0,>, 1,1,>, 2,1,v, 2,2,>]
+You can also "expand" the board, or go one step "back".
+Please enter a move in the "col,row,dir" format, or "back" or "expand":
+? 2,1,v
+
+=== Turn 4 ===
+(0 1 2 3)
+ x x x 4 (0)
+ x 1 x 2 (1)
+ 1 3 x 4 (2)
+Legal moves are:
+[3,0,>]
+You can also "expand" the board, or go one step "back".
+Please enter a move in the "col,row,dir" format, or "back" or "expand":
+?
+→3,0,>
+
+=== Turn 5 ===
+(0 1 2 3)
+ x x x x (0)
+ x x x 2 (1)
+ 1 3 x 4 (2)
+There are no legal moves.
+[]
+You could "expand" the board, or go "back".
+Please enter a move in the "col,row,dir" format, or "back" or "expand":
+?
+```
+
 ## TODOs
 
-* Computing legal moves
-* Executing moves
-* Console interaction
+* Make everything nicer
+* Random?
+* Dead row elimination
+* Solve the world's problems
 
 ## NOTDOs
 

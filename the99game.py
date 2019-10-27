@@ -216,11 +216,13 @@ def main():
         if args.hints:
             if move.startswith('m'):
                 move = str(moves[int(move[1:])])
+                print('→{}'.format(move))
             elif not move:
                 if moves:
                     move = str(moves[0])
                 else:
                     move = 'expand'
+                print('→{}'.format(move))
         res, error = game.make_move(move)
         if not res:
             print('Cannot {} that move.'.format(error))  # Dirty hack
