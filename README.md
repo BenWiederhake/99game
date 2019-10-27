@@ -8,6 +8,9 @@ quickly check whether a sequence of moves is valid.
 Hopefully this is implemented modular enough to also be used as a
 kind of search library.
 
+The file is named `the99game.py` because `99game.py` would cause all kinds of
+trouble in python.
+
 ## Table of Contents
 
 - [Install](#install)
@@ -24,14 +27,20 @@ No installation required.
 
 Just use it!  No dependencies, but you need to run it in a console.
 
-```sh
-$ ./99game.py --help
-FIXME
+```
+$ ./the99game.py --help
+usage: the99game.py [-h] [--hide-board]
+
+optional arguments:
+  -h, --help    show this help message and exit
+  --hide-board  do not show the board while playing
 ```
 
 ## TODOs
 
-* Everything
+* Computing legal moves
+* Executing moves
+* Console interaction
 
 ## NOTDOs
 
