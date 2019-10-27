@@ -1,6 +1,32 @@
 #!/usr/bin/env python3
 
 import argparse
+import enum
+
+
+class Direction(enum.Enum):
+    RIGHT = '>'
+    DOWN = 'v'
+
+
+class Move:
+    def __init__(self, col, row, direction):
+        self.col = int(col)
+        self.row = int(row)
+        self.direction = Direction(direction)
+
+    def __str__(self):
+        return '{},{},{}'.format(self.col, self.row, self.direction.value)
+
+    __repr__ = __str__
+
+    @staticmethod
+    def parse(string):
+        parts = string.split(',')
+        try:
+            return Move(*parts)
+        except (TypeError, ValueError):
+            return None
 
 
 class Board:
@@ -50,12 +76,68 @@ class Board:
                 if index >= len(self.state):
                     line_parts.append(' ' * self.celllen)
                 elif self.state[index] is None:
-                    line_parts.append('_' * self.celllen)
+                    line_parts.append('x' * self.celllen)
                 else:
                     line_parts.append(self.cellformat.format(self.state[index]))
             line_parts.append('({})'.format(row))
             lines.append(' ' + ' '.join(line_parts))
         return '\n'.join(lines)
+
+    def compute_legal_moves(self):
+        legal_moves = []
+        base_index = 0
+        while base_index is not None:
+            next_index = self.find_down(base_index)
+            if next_index is not None and self.can_combine(self.state[base_index], self.state[next_index]):
+                legal_moves.append(Move(*self.index_to_colrow(base_index), Direction.DOWN))
+            next_index = self.find_right(base_index)
+            if next_index is not None and self.can_combine(self.state[base_index], self.state[next_index]):
+                legal_moves.append(Move(*self.index_to_colrow(base_index), Direction.RIGHT))
+            # It would be simpler to just "+1" here.  However, if there are many consecutive
+            # empty cells, we might run into quadratic behavior.  Thus, we have to skip the
+            # known-empty cells immediately.
+            base_index = next_index
+        return legal_moves
+
+    def find_down(self, index):
+        index += self.cols
+        while index < len(self.state):
+            if self.state[index] is not None:
+                return index
+            index += self.cols
+        return None
+
+    def find_right(self, index):
+        index += 1
+        while index < len(self.state):
+            if self.state[index] is not None:
+                return index
+            index += 1
+        return None
+
+    def find_next(self, index, direction):
+        if direction == Direction.DOWN:
+            return self.find_down(index)
+        elif direction == Direction.RIGHT:
+            return self.find_right(index)
+        else:
+            raise ValueError(direction, 'is not a Direction?!')
+
+    def make_move(self, move):
+        base_index = self.colrow_to_index(move.col, move.row)
+        next_index = self.find_next(base_index, move.direction)
+        if not self.can_combine(self.state[base_index], self.state[next_index]):
+            return False
+        self.state[base_index] = None
+        self.state[next_index] = None
+        return True
+
+    def expand(self):
+        old_len = len(self.state)
+        for i in range(old_len):
+            val = self.state[i]
+            if val is not None:
+                self.state.append(val)
 
 
 def build_parser():
