@@ -202,7 +202,6 @@ class Game:
 
 def build_parser():
     parser = argparse.ArgumentParser()
-    # TODO: Support other bases than just 10
     parser.add_argument("--base", type=int, default=10, help="dase of the game (defaults to 10)")
     parser.add_argument("--hide-board", action="store_true", help="do not show the board while playing")
     parser.add_argument("--hints", action="store_true", help="show legal moves at each step")

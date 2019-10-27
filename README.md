@@ -99,6 +99,66 @@ Please enter a move in the "col,row,dir" format, or "back" or "expand":
 ?
 ```
 
+### Optimal solutions
+
+Here are the optimal solutions for various bases, as far as I know:
+
+```
+$ ./solve.py --base 2
+Turn 1: 0 open, 1 closed
+Turn 2: 1 open, 2 closed
+Turn 3: 2 open, 4 closed
+=== Can win after 3 turns! ===
+[0,0,v, 'expand', 0,0,v]
+
+$ ./solve.py --base 3
+Turn 1: 0 open, 1 closed
+Turn 2: 7 open, 2 closed
+Turn 3: 29 open, 10 closed
+=== Can win after 3 turns! ===
+[0,0,v, 1,0,v, 0,0,>]
+
+$ ./solve.py --base 4
+Turn 1: 0 open, 1 closed
+Turn 2: 8 open, 2 closed
+Turn 3: 43 open, 11 closed
+Turn 4: 309 open, 55 closed
+Turn 5: 2768 open, 365 closed
+Turn 6: 34798 open, 3134 closed
+=== Can win after 6 turns! ===
+[0,0,v, 2,0,v, 1,1,v, 1,0,>, 'expand', 2,0,>]
+
+$ ./solve.py --base 5
+Turn 1: 0 open, 1 closed
+Turn 2: 8 open, 2 closed
+Turn 3: 54 open, 11 closed
+Turn 4: 459 open, 66 closed
+Turn 5: 4897 open, 526 closed
+Turn 6: 69744 open, 5424 closed
+=== Can win after 6 turns! ===
+[0,0,v, 3,0,>, 1,0,v, 2,1,v, 2,0,>, 0,0,>]
+
+$ ./solve.py --base 6  # Given only 3 GiB of RAM
+Turn 1: 0 open, 1 closed
+Turn 2: 9 open, 2 closed
+Turn 3: 59 open, 12 closed
+Turn 4: 461 open, 72 closed
+Turn 5: 4615 open, 534 closed
+Turn 6: 61134 open, 5150 closed
+Turn 7: 1085340 open, 66285 closed
+Traceback (most recent call last):
+  File "./solve.py", line 67, in <module>
+    main()
+  File "./solve.py", line 61, in main
+    winning_moves = try_solve(board)
+  File "./solve.py", line 35, in try_solve
+    board_copy = Board(board.base, state=board.state, turn=board.turn)
+  File "/home/eispin/workspace/99game/the99game.py", line 39, in __init__
+MemoryError
+```
+
+Have fun running it with more RAM consumption.
+
 ## TODOs
 
 * Make everything nicer
