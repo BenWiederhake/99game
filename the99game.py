@@ -221,8 +221,8 @@ def main():
         if not args.hide_board:
             print(game.moves)
             print(game.board)
+        moves = game.board.compute_legal_moves()
         if args.hints:
-            moves = game.board.compute_legal_moves()
             if not moves:
                 print('There are no legal moves.')
                 print([])
@@ -237,27 +237,33 @@ def main():
         except (EOFError, KeyboardInterrupt):
             print('Exiting')
             exit(1)
-        if args.hints:
-            if move.startswith('m'):
-                move = str(moves[int(move[1:])])
+        if move.startswith('m'):
+            try:
+                move_num = int(move[1:])
+            except:
+                move_num = -1
+            if 0 <= move_num < len(moves):
+                move = str(moves[move_num])
                 print('→{}'.format(move))
-            elif not move:
-                if moves:
-                    moves.extend(['back', 'expand', 'back'])
-                    move = str(random.choice(moves[:3]))
+            else:
+                print('(Did you mean something like "m0"?)')
+        if not move:
+            if moves:
+                moves.extend(['back', 'expand', 'back'])
+                move = str(random.choice(moves[:3]))
+            else:
+                if random.random() < 0.6:
+                    move = 'back'
                 else:
-                    if random.random() < 0.6:
-                        move = 'back'
-                    else:
-                        move = 'expand'
-                print('→{}'.format(move))
+                    move = 'expand'
+            print('→{}'.format(move))
         res, error = game.make_move(move)
         if not res:
             print('Cannot {} that move.'.format(error))  # Dirty hack
         print()
     print('=== You won after {} turns! ==='.format(game.board.turn - 1))
+    print(game.moves)
     if not args.hide_board:
-        print(game.moves)
         print(game.board)
 
 
