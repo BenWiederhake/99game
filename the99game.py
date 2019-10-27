@@ -126,10 +126,11 @@ class Board:
     def make_move(self, move):
         base_index = self.colrow_to_index(move.col, move.row)
         next_index = self.find_next(base_index, move.direction)
-        if not self.can_combine(self.state[base_index], self.state[next_index]):
+        if next_index is None or not self.can_combine(self.state[base_index], self.state[next_index]):
             return False
         self.state[base_index] = None
         self.state[next_index] = None
+        self.turn += 1
         return True
 
     def expand(self):
@@ -138,19 +139,82 @@ class Board:
             val = self.state[i]
             if val is not None:
                 self.state.append(val)
+        self.turn += 1
+
+    def has_won(self):
+        return all(e is None for e in self.state)
+
+
+class Game:
+    def __init__(self, base=None):
+        self.base = base
+        self.moves = []
+        self.board = Board(base)
+
+    def rebuild_board(self):
+        self.board = Board(self.base)
+        for m in self.moves:
+            assert m != 'back'
+            self.make_move(m)
+
+    def make_move(self, move_str):
+        if move_str == 'back':
+            self.moves = self.moves[:-1]
+            self.rebuild_board()
+            return True, ''
+        if move_str == 'expand':
+            self.moves.append(move_str)
+            self.board.expand()
+            return True, ''
+        move = Move.parse(move_str)
+        if move is None:
+            return False, 'parse'
+        res = self.board.make_move(move)
+        if res:
+            self.moves.append(move_str)
+            return True, ''
+        else:
+            return False, 'make'
 
 
 def build_parser():
     parser = argparse.ArgumentParser()
     # TODO: Support other bases than just 10
-    # parser.add_argument("--base", type=int, help="dase of the game (defaults to 10)")
+    parser.add_argument("--base", type=int, default=10, help="dase of the game (defaults to 10)")
     parser.add_argument("--hide-board", action="store_true", help="do not show the board while playing")
+    parser.add_argument("--hints", action="store_true", help="show legal moves at each step")
     return parser    
 
 
 def main():
     args = build_parser().parse_args()
-    raise NotImplementedError()
+    game = Game(base=args.base)
+    while not game.board.has_won():
+        print('=== Turn {} ==='.format(game.board.turn))
+        if not args.hide_board:
+            print(game.board)
+        if args.hints:
+            moves = game.board.compute_legal_moves()
+            if not moves:
+                print('There are no legal moves.')
+                print('You could "expand" the board, or go "back".')
+            else:
+                print('Legal moves are:')
+                print(moves)
+                print('You can also "expland" the board, or go one step "back".')
+        print('Please enter a move in the "col,row,dir" format, or "back" or "expand":')
+        try:
+            move = input('? ')
+        except (EOFError, KeyboardInterrupt):
+            print('Exiting')
+            exit(1)
+        res, error = game.make_move(move)
+        if not res:
+            print('Cannot {} that move.'.format(error))  # Dirty hack
+        print()
+    print('=== You won after {} turns! ==='.format(game.board.turn - 1))
+    if not args.hide_board:
+        print(game.board)
 
 
 if __name__ == '__main__':
