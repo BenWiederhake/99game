@@ -30,8 +30,8 @@ class Move:
 
 
 class Board:
-    def __init__(self, base=None, state=None, turn=None):
-        self.base = base or 10
+    def __init__(self, base, state=None, turn=None):
+        self.base = base
         self.celllen = len(str(self.base - 1))
         self.cellformat = '{{:{}}}'.format(self.celllen)
         if state:
@@ -188,7 +188,11 @@ def build_parser():
 
 def main():
     args = build_parser().parse_args()
+    if args.base < 2:
+        print('base must be at least 2')
+        exit(1)
     game = Game(base=args.base)
+    moves = []
     while not game.board.has_won():
         print('=== Turn {} ==='.format(game.board.turn))
         if not args.hide_board:
@@ -197,17 +201,26 @@ def main():
             moves = game.board.compute_legal_moves()
             if not moves:
                 print('There are no legal moves.')
+                print([])
                 print('You could "expand" the board, or go "back".')
             else:
                 print('Legal moves are:')
                 print(moves)
-                print('You can also "expland" the board, or go one step "back".')
+                print('You can also "expand" the board, or go one step "back".')
         print('Please enter a move in the "col,row,dir" format, or "back" or "expand":')
         try:
             move = input('? ')
         except (EOFError, KeyboardInterrupt):
             print('Exiting')
             exit(1)
+        if args.hints:
+            if move.startswith('m'):
+                move = str(moves[int(move[1:])])
+            elif not move:
+                if moves:
+                    move = str(moves[0])
+                else:
+                    move = 'expand'
         res, error = game.make_move(move)
         if not res:
             print('Cannot {} that move.'.format(error))  # Dirty hack
