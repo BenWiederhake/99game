@@ -124,6 +124,20 @@ class Board:
         else:
             raise ValueError(direction, 'is not a Direction?!')
 
+    def clean_dead_row(self, around_index):
+        if around_index >= len(self.state) or self.state[around_index] is not None:
+            return
+        last_dead = around_index
+        while last_dead + 1 < len(self.state) and self.state[last_dead + 1] is None:
+            last_dead += 1
+        first_dead = around_index
+        while first_dead - 1 >= 0 and self.state[first_dead - 1] is None:
+            first_dead -= 1
+        elim_rows = (last_dead - first_dead + 1) // self.cols
+        if elim_rows == 0:
+            return
+        self.state = self.state[:first_dead] + self.state[first_dead + elim_rows * self.cols:]
+
     def make_move(self, move):
         base_index = self.colrow_to_index(move.col, move.row)
         next_index = self.find_next(base_index, move.direction)
@@ -131,6 +145,8 @@ class Board:
             return False
         self.state[base_index] = None
         self.state[next_index] = None
+        self.clean_dead_row(next_index)
+        self.clean_dead_row(base_index)
         self.turn += 1
         return True
 
@@ -161,6 +177,10 @@ class Game:
             self.make_move(m)
 
     def make_move(self, move_str):
+        if move_str == 'reset':
+            self.moves = []
+            self.board = Board(self.base)
+            return True, ''
         if move_str == 'back':
             self.moves = self.moves[:-1]
             self.rebuild_board()
@@ -206,12 +226,12 @@ def main():
             if not moves:
                 print('There are no legal moves.')
                 print([])
-                print('You could "expand" the board, or go "back".')
+                print('You could "expand" the board, go "back", or even "reset".')
             else:
                 print('Legal moves are:')
                 print(moves)
-                print('You can also "expand" the board, or go one step "back".')
-        print('Please enter a move in the "col,row,dir" format, or "back" or "expand":')
+                print('You can also "expand" the board, go one step "back", or even "reset".')
+        print('Please enter a move in the "col,row,dir" format, or "back", "expand", "reset":')
         try:
             move = input('? ')
         except (EOFError, KeyboardInterrupt):
@@ -223,7 +243,8 @@ def main():
                 print('→{}'.format(move))
             elif not move:
                 if moves:
-                    move = str(random.choice(moves + ['back', 'expand']))
+                    moves.extend(['back', 'expand', 'back'])
+                    move = str(random.choice(moves[:3]))
                 else:
                     if random.random() < 0.6:
                         move = 'back'
