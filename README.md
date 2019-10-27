@@ -102,7 +102,6 @@ Please enter a move in the "col,row,dir" format, or "back" or "expand":
 ## TODOs
 
 * Make everything nicer
-* Random?
 * Dead row elimination
 * Solve the world's problems
 

@@ -2,6 +2,7 @@
 
 import argparse
 import enum
+import random
 
 
 class Direction(enum.Enum):
@@ -153,7 +154,9 @@ class Game:
 
     def rebuild_board(self):
         self.board = Board(self.base)
-        for m in self.moves:
+        oldmoves = self.moves
+        self.moves = []
+        for m in oldmoves:
             assert m != 'back'
             self.make_move(m)
 
@@ -196,6 +199,7 @@ def main():
     while not game.board.has_won():
         print('=== Turn {} ==='.format(game.board.turn))
         if not args.hide_board:
+            print(game.moves)
             print(game.board)
         if args.hints:
             moves = game.board.compute_legal_moves()
@@ -219,9 +223,12 @@ def main():
                 print('→{}'.format(move))
             elif not move:
                 if moves:
-                    move = str(moves[0])
+                    move = str(random.choice(moves + ['back', 'expand']))
                 else:
-                    move = 'expand'
+                    if random.random() < 0.6:
+                        move = 'back'
+                    else:
+                        move = 'expand'
                 print('→{}'.format(move))
         res, error = game.make_move(move)
         if not res:
@@ -229,6 +236,7 @@ def main():
         print()
     print('=== You won after {} turns! ==='.format(game.board.turn - 1))
     if not args.hide_board:
+        print(game.moves)
         print(game.board)
 
 
