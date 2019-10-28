@@ -145,21 +145,21 @@ $ ./solve.py --base 4
 Turn 1: 0 open, 1 closed
 Turn 2: 8 open, 2 closed
 Turn 3: 43 open, 11 closed
-- INEXACT, iff solution is longer than 20 -
+- INEXACT, iff solution is longer than 30 -
 Turn 4: 308 open, 55 closed
 Turn 5: 2625 open, 364 closed
-Turn 6: 25528 open, 2990 closed
+Turn 6: 25637 open, 2990 closed
 === Can win after 6 turns! ===
 [0,0,v, 2,0,v, 1,1,v, 1,0,>, 'expand', 2,0,>]
 
 $ ./solve.py --base 5
 Turn 1: 0 open, 1 closed
 Turn 2: 8 open, 2 closed
-- INEXACT, iff solution is longer than 20 -
-Turn 3: 53 open, 11 closed
-Turn 4: 386 open, 65 closed
-Turn 5: 2531 open, 452 closed
-Turn 6: 16410 open, 2984 closed
+Turn 3: 54 open, 11 closed
+- INEXACT, iff solution is longer than 30 -
+Turn 4: 458 open, 66 closed
+Turn 5: 4732 open, 525 closed
+Turn 6: 56703 open, 5258 closed
 === Can win after 6 turns! ===
 [0,0,v, 3,0,>, 1,0,v, 2,1,v, 2,0,>, 0,0,>]
 
@@ -258,16 +258,67 @@ Turn 25: 31595 open, 1343583 closed
 Turn 26: 10079 open, 1375179 closed
 === Can win after 26 turns! ===
 [0,0,v, 8,0,v, 'expand', 1,1,>, 7,0,>, 2,2,v, 1,2,>, 6,2,v, 6,1,v, 5,2,>, 0,3,v, 4,3,v, 7,3,>, 8,2,v, 4,2,>, 4,1,v, 6,0,>, 5,0,>, 4,0,>, 1,2,v, 5,1,>, 3,2,v, 3,1,>, 3,0,>, 2,0,>, 1,0,>]
+
+$ ./solve.py --base 11
+Turn 1: 0 open, 1 closed
+- INEXACT, iff solution is longer than 20 -
+Turn 2: 11 open, 2 closed
+Turn 3: 64 open, 14 closed
+Turn 4: 214 open, 79 closed
+Turn 5: 494 open, 294 closed
+Turn 6: 868 open, 789 closed
+Turn 7: 1265 open, 1658 closed
+Turn 8: 1582 open, 2924 closed
+Turn 9: 1669 open, 4507 closed
+Turn 10: 1452 open, 6177 closed
+Turn 11: 1001 open, 7630 closed
+Turn 12: 506 open, 8632 closed
+Turn 13: 674 open, 9139 closed
+Turn 14: 3573 open, 9814 closed
+Turn 15: 11310 open, 13388 closed
+=== Can win after 15 turns! ===
+[4,0,>, 3,0,>, 2,0,>, 1,0,>, 0,0,>, 0,0,v, 1,0,>, 4,0,v, 5,0,v, 6,0,v, 9,0,>, 8,0,>, 7,0,>, 3,0,>, 8,0,>]
+
+$ ./solve.py --base 12
+Turn 1: 0 open, 1 closed
+- INEXACT, iff solution is longer than 30 -
+Turn 2: 8 open, 2 closed
+Turn 3: 29 open, 11 closed
+Turn 4: 49 open, 41 closed
+Turn 5: 51 open, 91 closed
+Turn 6: 86 open, 143 closed
+Turn 7: 547 open, 230 closed
+Turn 8: 2651 open, 778 closed
+Turn 9: 8555 open, 3430 closed
+Turn 10: 19944 open, 11986 closed
+Turn 11: 35653 open, 31931 closed
+Turn 12: 50715 open, 67585 closed
+Turn 13: 58789 open, 118301 closed
+Turn 14: 56500 open, 177091 closed
+Turn 15: 45789 open, 233592 closed
+Turn 16: 32129 open, 279382 closed
+Turn 17: 20334 open, 311512 closed
+Turn 18: 12257 open, 331847 closed
+Turn 19: 7134 open, 344105 closed
+Turn 20: 3726 open, 351240 closed
+Turn 21: 1566 open, 354967 closed
+Turn 22: 500 open, 356534 closed
+Turn 23: 91 open, 357035 closed
+Turn 24: 6 open, 357127 closed
+=== FAILED ===
 ```
 
 Have fun running it with more RAM consumption.
 
-Sadly, the sequence "3,3,6,6,9,9,15,12,26" is [not known](https://oeis.org/search?q=3%2C3%2C6%2C6%2C9%2C9%2C15).
+Sadly, the sequence "3,3,6,6,9,9,15,12,26,15" is [not known](https://oeis.org/search?q=3%2C3%2C6%2C6%2C9%2C9%2C15).
 What comes next?  Who knows? :D
 
 Since odd degrees are trivial, we might instead want to look at even degrees.
 However, there's [only one very unlikely result](https://oeis.org/search?q=3,6,9,15,26) for that.
-Known: `3,6,9,15,26`
+Known: `3,6,9,15,26,>30`
+
+- `ASSUME_MAX=30` fails (no such solution)
+- `ASSUME_MAX=35` needs >6 GiB during Turn 18
 
 ## TODOs
 
