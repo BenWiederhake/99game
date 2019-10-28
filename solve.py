@@ -53,6 +53,8 @@ def try_solve(board):
             queue_tail.append(board_copy)
             if board_copy.has_won():
                 return base_moves + [move]
+    print('=== FAILED ===')
+    exit(1)
 
 
 def build_parser():
