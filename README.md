@@ -123,9 +123,9 @@ Turn 1: 0 open, 1 closed
 Turn 2: 8 open, 2 closed
 Turn 3: 43 open, 11 closed
 Turn 4: 309 open, 55 closed
-Turn 5: 2768 open, 365 closed
-- INEXACT, possibly -
-Turn 6: 34639 open, 3134 closed
+- INEXACT, iff solution is longer than 20 -
+Turn 5: 2689 open, 365 closed
+Turn 6: 27204 open, 3055 closed
 === Can win after 6 turns! ===
 [0,0,v, 2,0,v, 1,1,v, 1,0,>, 'expand', 2,0,>]
 
@@ -133,38 +133,46 @@ $ ./solve.py --base 5
 Turn 1: 0 open, 1 closed
 Turn 2: 8 open, 2 closed
 Turn 3: 54 open, 11 closed
-Turn 4: 459 open, 66 closed
-Turn 5: 4897 open, 526 closed
-- INEXACT, possibly -
-Turn 6: 69555 open, 5424 closed
+- INEXACT, iff solution is longer than 20 -
+Turn 4: 414 open, 66 closed
+Turn 5: 2710 open, 481 closed
+Turn 6: 17499 open, 3192 closed
 === Can win after 6 turns! ===
 [0,0,v, 3,0,>, 1,0,v, 2,1,v, 2,0,>, 0,0,>]
 
-$ ./solve.py --base 6  # Given only 3 GiB RAM
+$ ./solve.py --base 6
 Turn 1: 0 open, 1 closed
 Turn 2: 9 open, 2 closed
 Turn 3: 59 open, 12 closed
-Turn 4: 461 open, 72 closed
-- INEXACT, possibly -
-Turn 5: 4528 open, 534 closed
-Turn 6: 51674 open, 5063 closed
-Turn 7: 576518 open, 56738 closed
-Traceback (most recent call last):
-  File "./solve.py", line 73, in <module>
-    main()
-  File "./solve.py", line 67, in main
-    winning_moves = try_solve(board)
-  File "./solve.py", line 41, in try_solve
-    board_copy = Board(board.base, state=board.state, turn=board.turn)
-  File "/home/eispin/workspace/99game/the99game.py", line 39, in __init__
-MemoryError
+- INEXACT, iff solution is longer than 20 -
+Turn 4: 418 open, 72 closed
+Turn 5: 2591 open, 491 closed
+Turn 6: 11024 open, 3083 closed
+Turn 7: 31550 open, 14108 closed
+Turn 8: 71143 open, 45659 closed
+Turn 9: 188219 open, 116803 closed
+=== Can win after 9 turns! ===
+[0,0,v, 3,0,v, 1,1,v, 4,0,>, 4,0,v, 2,0,>, 1,0,>, 'expand', 3,0,>]
 
+$ ./solve.py --base 7
+Turn 1: 0 open, 1 closed
+Turn 2: 10 open, 2 closed
+Turn 3: 77 open, 13 closed
+- INEXACT, iff solution is longer than 20 -
+Turn 4: 644 open, 91 closed
+Turn 5: 5258 open, 736 closed
+Turn 6: 33624 open, 5995 closed
+Turn 7: 161310 open, 39620 closed
+Turn 8: 585618 open, 200931 closed
+Turn 9: 1640943 open, 786550 closed
+=== Can win after 9 turns! ===
+[2,0,>, 1,0,>, 0,0,>, 0,0,v, 1,0,>, 3,0,v, 4,0,v, 5,0,>, 2,0,>]
 ```
 
 Have fun running it with more RAM consumption.
 
-Sadly, the sequence "3,3,6,6,>=7" is [not unique](https://oeis.org/search?q=3%2c3%2c6%2c6%20-tabl%20-cons).
-Some are [plausible](https://oeis.org/A008805), some [less](https://oeis.org/A110261).
+Sadly, the sequence "3,3,6,6,9,9" is [not unique](https://oeis.org/search?q=3%2C3%2C6%2C6%2C9%2C9+-tabl+-cons).
+Some are [plausible](https://oeis.org/A213332), some [less](https://oeis.org/A110261).
 
 
 ## TODOs

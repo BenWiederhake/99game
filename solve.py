@@ -6,6 +6,9 @@ import random
 from the99game import Board
 
 
+ASSUME_MAX = 20
+
+
 def stringify_board(board):
     return ''.join(str(e or 0) for e in board.state)
 
@@ -25,10 +28,10 @@ def try_solve(board):
             queue_head = queue_tail[::-1]
             queue_tail = []
         board = queue_head.pop()
-        if len(board.state) > 100:
+        if len(board.state) > 2 * ASSUME_MAX:
             if not inexact:
                 inexact = True
-                print('- INEXACT, possibly -')
+                print('- INEXACT, iff solution is longer than {} -'.format(ASSUME_MAX))
             continue
         if board.turn != turn:
             turn = board.turn
