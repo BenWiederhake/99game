@@ -2,6 +2,7 @@
 
 import argparse
 import enum
+import hashlib
 import random
 from the99game import Board
 
@@ -10,8 +11,9 @@ ASSUME_MAX = 30
 
 
 def stringify_board(board):
-    assert board.base <= 10
-    return ''.join(str(e or 0) for e in board.state)
+    #assert board.base <= 10
+    base_str = ','.join(str(e or 0) for e in board.state)
+    return hashlib.md5(base_str.encode()).digest()
 
 
 def try_solve(board):
@@ -20,7 +22,7 @@ def try_solve(board):
     seen = dict()
     queue_head = []
     queue_tail = []
-    seen[stringify_board(board)] = []
+    seen[stringify_board(board)] = '.'
     queue_head.append(board)
     turn = 0
     inexact = False
@@ -50,17 +52,18 @@ def try_solve(board):
             next_string = stringify_board(board_copy)
             if next_string in seen:
                 continue
-            seen[next_string] = base_moves + [move]
+            next_moves = ' '.join([base_moves, str(move)])
+            seen[next_string] = next_moves
             queue_tail.append(board_copy)
             if board_copy.has_won():
-                return base_moves + [move]
+                return board.turn, next_moves
     print('=== FAILED ===')
     exit(1)
 
 
 def build_parser():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--base", type=int, default=10, help="dase of the game (defaults to 10)")
+    parser.add_argument("--base", type=int, default=10, help="base of the game (defaults to 10)")
     return parser
 
 
@@ -70,8 +73,8 @@ def main():
         print('base must be at least 2')
         exit(1)
     board = Board(args.base)
-    winning_moves = try_solve(board)
-    print('=== Can win after {} turns! ==='.format(len(winning_moves)))
+    turns, winning_moves = try_solve(board)
+    print('=== Can win after {} turns! ==='.format(turns))
     print(winning_moves)
 
 
