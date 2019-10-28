@@ -28,11 +28,6 @@ def try_solve(board):
             queue_head = queue_tail[::-1]
             queue_tail = []
         board = queue_head.pop()
-        if len(board.state) > 2 * ASSUME_MAX:
-            if not inexact:
-                inexact = True
-                print('- INEXACT, iff solution is longer than {} -'.format(ASSUME_MAX))
-            continue
         if board.turn != turn:
             turn = board.turn
             num_open = len(queue_head) + len(queue_tail)
@@ -46,6 +41,11 @@ def try_solve(board):
                 board_copy.expand()
             else:
                 board_copy.make_move(move)
+            if len(board_copy.state) > 2 * ASSUME_MAX:
+                if not inexact:
+                    inexact = True
+                    print('- INEXACT, iff solution is longer than {} -'.format(ASSUME_MAX))
+                continue
             next_string = stringify_board(board_copy)
             if next_string in seen:
                 continue
