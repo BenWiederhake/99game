@@ -7,7 +7,7 @@ from the99game import Board
 
 
 def stringify_board(board):
-    return ','.join(str(e or 0) for e in board.state)
+    return ''.join(str(e or 0) for e in board.state)
 
 
 def try_solve(board):
@@ -19,11 +19,17 @@ def try_solve(board):
     seen[stringify_board(board)] = []
     queue_head.append(board)
     turn = 0
+    inexact = False
     while queue_head or queue_tail:
         if not queue_head:
             queue_head = queue_tail[::-1]
             queue_tail = []
         board = queue_head.pop()
+        if len(board.state) > 100:
+            if not inexact:
+                inexact = True
+                print('- INEXACT, possibly -')
+            continue
         if board.turn != turn:
             turn = board.turn
             num_open = len(queue_head) + len(queue_tail)

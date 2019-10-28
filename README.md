@@ -124,7 +124,8 @@ Turn 2: 8 open, 2 closed
 Turn 3: 43 open, 11 closed
 Turn 4: 309 open, 55 closed
 Turn 5: 2768 open, 365 closed
-Turn 6: 34798 open, 3134 closed
+- INEXACT, possibly -
+Turn 6: 34639 open, 3134 closed
 === Can win after 6 turns! ===
 [0,0,v, 2,0,v, 1,1,v, 1,0,>, 'expand', 2,0,>]
 
@@ -134,30 +135,37 @@ Turn 2: 8 open, 2 closed
 Turn 3: 54 open, 11 closed
 Turn 4: 459 open, 66 closed
 Turn 5: 4897 open, 526 closed
-Turn 6: 69744 open, 5424 closed
+- INEXACT, possibly -
+Turn 6: 69555 open, 5424 closed
 === Can win after 6 turns! ===
 [0,0,v, 3,0,>, 1,0,v, 2,1,v, 2,0,>, 0,0,>]
 
-$ ./solve.py --base 6  # Given only 3 GiB of RAM
+$ ./solve.py --base 6  # Given only 3 GiB RAM
 Turn 1: 0 open, 1 closed
 Turn 2: 9 open, 2 closed
 Turn 3: 59 open, 12 closed
 Turn 4: 461 open, 72 closed
-Turn 5: 4615 open, 534 closed
-Turn 6: 61134 open, 5150 closed
-Turn 7: 1085340 open, 66285 closed
+- INEXACT, possibly -
+Turn 5: 4528 open, 534 closed
+Turn 6: 51674 open, 5063 closed
+Turn 7: 576518 open, 56738 closed
 Traceback (most recent call last):
-  File "./solve.py", line 67, in <module>
+  File "./solve.py", line 73, in <module>
     main()
-  File "./solve.py", line 61, in main
+  File "./solve.py", line 67, in main
     winning_moves = try_solve(board)
-  File "./solve.py", line 35, in try_solve
+  File "./solve.py", line 41, in try_solve
     board_copy = Board(board.base, state=board.state, turn=board.turn)
   File "/home/eispin/workspace/99game/the99game.py", line 39, in __init__
 MemoryError
+
 ```
 
 Have fun running it with more RAM consumption.
+
+Sadly, the sequence "3,3,6,6,>=7" is [not unique](https://oeis.org/search?q=3%2c3%2c6%2c6%20-tabl%20-cons).
+Some are [plausible](https://oeis.org/A008805), some [less](https://oeis.org/A110261).
+
 
 ## TODOs
 
