@@ -266,7 +266,7 @@ Sadly, the sequence "3,3,6,6,9,9,15,12,26" is [not known](https://oeis.org/searc
 What comes next?  Who knows? :D
 
 Since odd degrees are trivial, we might instead want to look at even degrees.
-However, there's [way too many results](https://oeis.org/search?q=3,6,9,15,26) for that.
+However, there's [only one very unlikely result](https://oeis.org/search?q=3,6,9,15,26) for that.
 Known: `3,6,9,15,26`
 
 ## TODOs
