@@ -227,15 +227,47 @@ Turn 11: 1765278 open, 873601 closed
 Turn 12: 3808011 open, 2638880 closed
 === Can win after 12 turns! ===
 [3,0,>, 2,0,>, 1,0,>, 0,0,>, 0,0,v, 1,0,>, 4,0,v, 7,0,>, 6,0,>, 5,0,>, 3,0,>, 6,0,>]
+
+$ ./solve.py --base 10
+Turn 1: 0 open, 1 closed
+Turn 2: 8 open, 2 closed
+- INEXACT, iff solution is longer than 30 -
+Turn 3: 46 open, 11 closed
+Turn 4: 291 open, 58 closed
+Turn 5: 1509 open, 350 closed
+Turn 6: 5113 open, 1860 closed
+Turn 7: 12095 open, 6974 closed
+Turn 8: 21674 open, 19070 closed
+Turn 9: 31437 open, 40745 closed
+Turn 10: 39382 open, 72183 closed
+Turn 11: 45238 open, 111566 closed
+Turn 12: 49070 open, 156805 closed
+Turn 13: 50958 open, 205876 closed
+Turn 14: 53560 open, 256835 closed
+Turn 15: 61662 open, 310396 closed
+Turn 16: 78674 open, 372059 closed
+Turn 17: 102197 open, 450734 closed
+Turn 18: 123570 open, 552932 closed
+Turn 19: 134608 open, 676503 closed
+Turn 20: 134339 open, 811112 closed
+Turn 21: 127049 open, 945452 closed
+Turn 22: 114610 open, 1072502 closed
+Turn 23: 93494 open, 1187113 closed
+Turn 24: 62974 open, 1280608 closed
+Turn 25: 31595 open, 1343583 closed
+Turn 26: 10079 open, 1375179 closed
+=== Can win after 26 turns! ===
+[0,0,v, 8,0,v, 'expand', 1,1,>, 7,0,>, 2,2,v, 1,2,>, 6,2,v, 6,1,v, 5,2,>, 0,3,v, 4,3,v, 7,3,>, 8,2,v, 4,2,>, 4,1,v, 6,0,>, 5,0,>, 4,0,>, 1,2,v, 5,1,>, 3,2,v, 3,1,>, 3,0,>, 2,0,>, 1,0,>]
 ```
 
 Have fun running it with more RAM consumption.
 
-Sadly, the sequence "3,3,6,6,9,9,15,12" is [not known](https://oeis.org/search?q=3%2C3%2C6%2C6%2C9%2C9%2C15%2C12).
+Sadly, the sequence "3,3,6,6,9,9,15,12,26" is [not known](https://oeis.org/search?q=3%2C3%2C6%2C6%2C9%2C9%2C15).
 What comes next?  Who knows? :D
 
 Since odd degrees are trivial, we might instead want to look at even degrees.
-However, there's [way too many results](https://oeis.org/search?q=3,6,9,15) for that.
+However, there's [way too many results](https://oeis.org/search?q=3,6,9,15,26) for that.
+Known: `3,6,9,15,26`
 
 ## TODOs
 

@@ -6,10 +6,11 @@ import random
 from the99game import Board
 
 
-ASSUME_MAX = 20
+ASSUME_MAX = 30
 
 
 def stringify_board(board):
+    assert board.base <= 10
     return ''.join(str(e or 0) for e in board.state)
 
 
@@ -41,7 +42,7 @@ def try_solve(board):
                 board_copy.expand()
             else:
                 board_copy.make_move(move)
-            if len(board_copy.state) > 2 * ASSUME_MAX:
+            if sum(e is not None for e in board_copy.state) > 2 * (ASSUME_MAX - board_copy.turn + 1):
                 if not inexact:
                     inexact = True
                     print('- INEXACT, iff solution is longer than {} -'.format(ASSUME_MAX))
