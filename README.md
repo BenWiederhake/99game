@@ -1,3 +1,12 @@
+# ARCHIVED
+
+The game still works, and is useful as a validator.
+However, a better and faster solver is implemented
+[here in Rust](https://github.com/BenWiederhake/solve99game-rs#experimental-results),
+and I don't plan to touch this python code anyway.
+Also, have fun with my development notes of figuring out
+a memory-efficient way to implement A*.
+
 # 99game
 
 > A CLI version of a nameless game that I dubbed "99game".
