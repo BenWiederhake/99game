@@ -7,7 +7,7 @@ import random
 from the99game import Board
 
 
-ASSUME_MAX = 30
+ASSUME_MAX = 11
 
 
 def stringify_board(board):
@@ -20,13 +20,21 @@ def try_solve(board):
     if board.has_won():
         return []
     seen = dict()
+    reseen = 0
     queue_head = []
     queue_tail = []
     seen[stringify_board(board)] = '.'
     queue_head.append(board)
     turn = 0
     inexact = False
+    step = 0
     while queue_head or queue_tail:
+        if step % 10000 == 0:
+            num_open = len(queue_head) + len(queue_tail)
+            num_total = len(seen)
+            print('\t{:6} steps, {:6} open, {:6} closed, {:6} reseen'.format(
+                step, num_open, num_total - num_open, reseen))
+        step += 1
         if not queue_head:
             queue_head = queue_tail[::-1]
             queue_tail = []
@@ -35,8 +43,8 @@ def try_solve(board):
             turn = board.turn
             num_open = len(queue_head) + len(queue_tail)
             num_total = len(seen)
-            print('Turn {}: {} open, {} closed'.format(
-                turn, num_open, num_total - num_open))
+            print('Turn {}: {:6} steps, {:6} open, {:6} closed, {:6} reseen'.format(
+                turn, step, num_open, num_total - num_open, reseen))
         base_moves = seen[stringify_board(board)]
         for move in board.compute_legal_moves() + ['expand']:
             board_copy = Board(board.base, state=board.state, turn=board.turn)
@@ -51,6 +59,7 @@ def try_solve(board):
                 continue
             next_string = stringify_board(board_copy)
             if next_string in seen:
+                reseen += 1
                 continue
             next_moves = ' '.join([base_moves, str(move)])
             seen[next_string] = next_moves
